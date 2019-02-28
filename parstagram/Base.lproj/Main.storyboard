@@ -170,12 +170,12 @@
                     <navigationItem key="navigationItem" id="TNh-is-6ab">
                         <barButtonItem key="rightBarButtonItem" title="Item" image="insta_camera_btn" id="owe-6N-CdB">
                             <connections>
-                                <segue destination="jKl-kA-q4k" kind="presentation" id="SJp-Jr-PUA"/>
+                                <segue destination="jKl-kA-q4k" kind="presentation" id="hFS-6J-ldD"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="tableView" destination="jmo-uf-1hk" id="yLW-wK-abc"/>
+                        <outlet property="tableView" destination="jmo-uf-1hk" id="4Bh-41-wdb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="D1P-TW-9Vz" userLabel="First Responder" sceneMemberID="firstResponder"/>

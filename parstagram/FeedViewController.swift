@@ -14,7 +14,10 @@ import AlamofireImage
 class FeedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     var posts = [PFObject]()
+    var numberPosts: Int!
     
+    let myRefreshControl = UIRefreshControl()
+
 
     @IBOutlet weak var tableView: UITableView!
     
@@ -23,14 +26,16 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         tableView.delegate = self
         tableView.dataSource = self
+        
+        myRefreshControl.addTarget(self, action: #selector(loadPosts), for: .valueChanged)
+        tableView.refreshControl = myRefreshControl
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
+    @objc func loadPosts(){
+        numberPosts = 6
         let query = PFQuery(className: "Posts")
         query.includeKey("author")
-        query.limit = 20
+        query.limit = numberPosts
         
         query.findObjectsInBackground { (posts, error) in
             if posts != nil {
@@ -38,6 +43,12 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
                 self.tableView.reloadData()
             }
         }
+        self.myRefreshControl.endRefreshing()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        loadPosts()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -61,6 +72,31 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         return cell
     }
+    /*
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.row + 1 == posts.count {
+            print("Row \(indexPath.row)")
+            print("Posts \(posts.count)")
+            loadMorePosts()
+        }
+    }
+    
+    func loadMorePosts(){
+        numberPosts += 6
+        print("Next Number of Posts: \(numberPosts)")
+        let query = PFQuery(className: "Posts")
+        query.includeKey("author")
+        query.limit = numberPosts
+        
+        query.findObjectsInBackground { (posts, error) in
+            if posts != nil {
+                self.posts = posts!
+                self.tableView.reloadData()
+            }
+        }
+    }
+ */
     
 
     /*
